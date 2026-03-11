@@ -1,10 +1,6 @@
 def calcular_total(precio,  cantidad):
     return precio * cantidad
     
-
-
-
-
 def registrar_producto():
     nombre = input("Ingresa el nombre del producto: ")
     
@@ -31,8 +27,6 @@ def registrar_producto():
     return producto
 
 
-producto = registrar_producto()
-print(f"{producto['nombre']}, registrado con exito")
 
 
 
