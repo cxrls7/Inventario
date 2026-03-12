@@ -2,24 +2,28 @@ def calcular_total(precio,  cantidad):
     return precio * cantidad
     
 def registrar_producto():
-    nombre = input("Ingresa el nombre del producto: ")
+
     
+    nombre = input("-Ingresa el nombre del producto: ")
+    
+    
+
     precio = 0.0
     cantidad = 0
     
     while True:
         try:
-            precio = float(input("Precio del unitario del producto: "))
+            precio = float(input("-Precio del unitario del producto: "))
             break
         except ValueError:
-            print(" ❌ Ingresa un valor valido ❌")
+            print("\n ❌ Ingresa un valor valido ❌")
 
     while True:
         try:
-            cantidad = int(input("Ingresa la cantidad del producto: "))
+            cantidad = int(input("-Ingresa la cantidad del producto: "))
             break
         except ValueError:
-            print("❌ Ingresa un valor valido ❌")  
+            print("\n❌ Ingresa un valor valido ❌")  
 
     total = precio * cantidad
 
@@ -27,7 +31,11 @@ def registrar_producto():
     return producto
 
 
-
+def buscar_producto(inventario, nombre_buscado  ):
+    for producto in inventario :
+       if producto['nombre'].strip().lower() == nombre_buscado.strip().lower():
+          return producto
+    return None 
 
 
 
