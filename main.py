@@ -26,13 +26,13 @@ def main():
             print("-Sistema que te ayudara a registrar, actualizar o eliminar productos de tu inventario.")
        
             print("\n---- MENU DEL INVENTARIO ----")
-            print("\n1- Agregar producto")
-            print("2- Ver inventario")
-            print("3- Buscar producto")
-            print("4- Actualizar producto")
-            print("5- Eliminar producto")
+            print("\n1-➕ Agregar producto")
+            print("2-👀 Ver inventario")
+            print("3-🔎 Buscar producto")
+            print("4-💱 Actualizar producto")
+            print("5-⛔ Eliminar producto")
             print("6-📊 Ver estadisticas")
-            print("7- Salir")
+            print("7-👋 Salir")
 
             opcion = input("\n-Ingresa una opcion: ")
         
@@ -45,7 +45,7 @@ def main():
                 print("\n=================================")
                 print("Resumen del registro")
                 print("=================================")
-                print(F"✅ Se registro: {nuevo_producto["nombre"]}")
+                print(f"✅ Se registro: {nuevo_producto["nombre"]}")
                 print(f"📥 Cantidad: {nuevo_producto["cantidad"]}") 
                 print(f"💰 Total final: {formato_cop(nuevo_producto["total"])}")
                 print("=================================")
@@ -86,7 +86,7 @@ def main():
                          print("\n=================================")
                          print("Resumen de busqueda")
                          print("=================================")
-                         print(F"🏷️ Producto: {resultado["nombre"]}")
+                         print(f"🏷️ Producto: {resultado["nombre"]}")
                          print(f"🧺 Stock: {resultado["cantidad"]}") 
                          print(f"💵 Valor total: {formato_cop(resultado["total"])}")
                          print("=================================")
@@ -107,7 +107,7 @@ def main():
             
             elif opcion == "6":
                 limpiar()
-                total_dinero, total_unidades = calcular_estadisticas(inventario)
+                stats = calcular_estadisticas(inventario)
                 
                 if not inventario:
                     limpiar()
@@ -118,13 +118,18 @@ def main():
 
 
                 else:
-                 print("\n=================================")
+                 print("\n========================================")
                  print("Reporte de inventario")
-                 print("=================================")
-                 print(f"🗒️ Numero de productos: {len(inventario)}")
-                 print(f"📋 Unidades totales: {total_unidades}") 
-                 print(f"💰 Valor total: {formato_cop(total_dinero)}")
-                 print("=================================")
+                 print("========================================")
+                 print(f"💰 Valor total: {formato_cop(stats['valor'])}")
+                 print(f"🧺 Stock total: {stats['unidades']}")
+                 print("========================================")
+                 print(f"⭐ El mas caro: {stats['mas_caro']['nombre']}")
+                 print(f"💰 Precio: {formato_cop(stats['mas_caro']['precio'])}")
+                 print("========================================")
+                 print(f"🔥 Mayor stock: {stats['mayor_stock']['nombre']}")                 
+                 print(f"🗒️ Cantidad: {stats['mayor_stock']['cantidad']}")
+                 print("========================================")
                  input("\nPresiona ENTER para volver al menu...")
                  limpiar()
 
@@ -147,7 +152,7 @@ def main():
             
             
             
-            elif opcion == "6":
+            elif opcion == "7":
              print("\nGracias por utilizar el sistema de inventario 👋 ")
              break
             else:
