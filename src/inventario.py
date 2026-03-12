@@ -38,5 +38,15 @@ def buscar_producto(inventario, nombre_buscado  ):
     return None 
 
 
+def calcular_estadisticas(inventario):
+    valor_total_acumulado = 0
+    cantidad_total_items = 0
+
+    for producto in inventario:
+        valor_total_acumulado += producto['total']
+        cantidad_total_items += producto['cantidad']
+
+    return valor_total_acumulado, cantidad_total_items
+    
 
    

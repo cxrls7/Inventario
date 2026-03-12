@@ -1,5 +1,6 @@
 from src.inventario import registrar_producto
 from src.inventario import buscar_producto
+from src.inventario import calcular_estadisticas
 import os
 import locale
 
@@ -10,10 +11,6 @@ try:
     locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
 except:locale.setlocale(locale.LC_ALL, "SPANISH_COLOMBIA") 
 
- 
-    
- 
- 
  
 def limpiar():
      os.system("cls" if os.name == "nt" else "clear")
@@ -32,7 +29,10 @@ def main():
             print("\n1- Agregar producto")
             print("2- Ver inventario")
             print("3- Buscar producto")
-            print("4- Salir")
+            print("4- Actualizar producto")
+            print("5- Eliminar producto")
+            print("6-📊 Ver estadisticas")
+            print("7- Salir")
 
             opcion = input("\n-Ingresa una opcion: ")
         
@@ -45,9 +45,9 @@ def main():
                 print("\n=================================")
                 print("Resumen del registro")
                 print("=================================")
-                print(F"Se registro: {nuevo_producto["nombre"]}")
-                print(f"Cantidad: {nuevo_producto["cantidad"]}") 
-                print(f"Total final: {formato_cop(nuevo_producto["total"])}")
+                print(F"✅ Se registro: {nuevo_producto["nombre"]}")
+                print(f"📥 Cantidad: {nuevo_producto["cantidad"]}") 
+                print(f"💰 Total final: {formato_cop(nuevo_producto["total"])}")
                 print("=================================")
                 print("\nProducto añadido correctamente ✅")
 
@@ -67,7 +67,7 @@ def main():
                     
              else:
                 limpiar()
-                for nuevo_producto in inventario: print(f"Nombre: {nuevo_producto["nombre"]} --- Cantidad: {nuevo_producto["cantidad"]}")
+                for nuevo_producto in inventario: print(f"| Nombre: {nuevo_producto["nombre"]} | Precio: {formato_cop(nuevo_producto["precio"])} | Cantidad: {nuevo_producto["cantidad"]} |")
                 pass
                 
                 input("\nPresiona ENTER para volver al menu...")
@@ -86,9 +86,9 @@ def main():
                          print("\n=================================")
                          print("Resumen de busqueda")
                          print("=================================")
-                         print(F"Producto: {resultado["nombre"]}")
-                         print(f"Stock: {resultado["cantidad"]}") 
-                         print(f"Valor total: {formato_cop(resultado["total"])}")
+                         print(F"🏷️ Producto: {resultado["nombre"]}")
+                         print(f"🧺 Stock: {resultado["cantidad"]}") 
+                         print(f"💵 Valor total: {formato_cop(resultado["total"])}")
                          print("=================================")
 
                          input("¿Quieres hacer otra busqueda? si/no: ")
@@ -104,7 +104,29 @@ def main():
                          break
 
                     
+            
+            elif opcion == "6":
+                limpiar()
+                total_dinero, total_unidades = calcular_estadisticas(inventario)
+                
+                if not inventario:
+                    limpiar()
+                    print("❕NO HAY OBJETOS EN EL INVENTARIO❕")
+                    input("\nPresiona ENTER para salir...")
+                    limpiar()
+               
 
+
+                else:
+                 print("\n=================================")
+                 print("Reporte de inventario")
+                 print("=================================")
+                 print(f"🗒️ Numero de productos: {len(inventario)}")
+                 print(f"📋 Unidades totales: {total_unidades}") 
+                 print(f"💰 Valor total: {formato_cop(total_dinero)}")
+                 print("=================================")
+                 input("\nPresiona ENTER para volver al menu...")
+                 limpiar()
 
 
 
@@ -120,7 +142,12 @@ def main():
 
 
      
-            elif opcion == "4":
+            
+            
+            
+            
+            
+            elif opcion == "6":
              print("\nGracias por utilizar el sistema de inventario 👋 ")
              break
             else:
