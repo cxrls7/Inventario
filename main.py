@@ -1,7 +1,7 @@
 from src.inventario import registrar_producto
 from src.inventario import buscar_producto
 from src.inventario import calcular_estadisticas
-from src.inventario import buscar_producto
+from src.inventario import actualizar_producto
 import os
 import locale
 
@@ -105,6 +105,33 @@ def main():
                          break
 
                     
+            elif opcion == "4":
+                limpiar()
+                while True:
+                    actualizar_producto(inventario)
+                    input("Presiona ENTER para regresar al menu...")
+                    limpiar()
+                    break
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             elif opcion == "6":
                 limpiar()
@@ -148,7 +175,7 @@ def main():
             
             
             
-            elif opcion == "6":
+            elif opcion == "7":
              print("\nGracias por utilizar el sistema de inventario 👋 ")
              break
             else:

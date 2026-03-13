@@ -1,3 +1,5 @@
+
+
 def calcular_total(precio,  cantidad):
     return precio * cantidad
     
@@ -50,5 +52,35 @@ def calcular_estadisticas(inventario):
     
 def actualizar_producto(inventario):
 
-   nombre_buscar = input("Ingrese el nombre a buscar:")
+   nombre_buscar = input("Ingrese el nombre del producto a actualizar:").strip().lower()
    
+   for producto in inventario:
+            
+            if producto['nombre'].lower() == nombre_buscar:
+                    print(f"Producto encontrado {producto['nombre']}")
+                    print(f"Parametros actuales {producto['nombre']} || {producto['cantidad']} || {producto['precio']} ")
+
+            try:
+            
+            
+              nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
+              nuevo_precio = float(input("Ingrese el nuevo precio: "))
+
+              producto['cantidad'] = nueva_cantidad
+              producto['precio'] = nuevo_precio
+              producto['total'] = nueva_cantidad * nuevo_precio
+
+              print("\nProducto actualizado con exito")
+              return True
+                
+            except ValueError:
+                    print("ERROR. INGRESA NUMEROS VALIDOS")
+                    return False
+                
+   print(f"EL PRODUCTO {nombre_buscar} NO EXISTE")
+   return False        
+
+
+
+
+    
