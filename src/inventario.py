@@ -48,5 +48,7 @@ def calcular_estadisticas(inventario):
 
     return valor_total_acumulado, cantidad_total_items
     
+def actualizar_producto(inventario):
 
+   nombre_buscar = input("Ingrese el nombre a buscar:")
    

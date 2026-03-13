@@ -1,6 +1,7 @@
 from src.inventario import registrar_producto
 from src.inventario import buscar_producto
 from src.inventario import calcular_estadisticas
+from src.inventario import buscar_producto
 import os
 import locale
 
