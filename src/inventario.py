@@ -1,3 +1,5 @@
+import csv
+
 
 def calcular_total(precio,  cantidad):
     return precio * cantidad
@@ -32,11 +34,12 @@ def registrar_producto():
     return producto
 
 
-def buscar_producto(inventario, nombre_buscado  ):
+def buscar_producto(inventario, nombre_buscado):
     for producto in inventario :
        if producto['nombre'].strip().lower() == nombre_buscado.strip().lower():
           return producto
     return None 
+
 
 
 def calcular_estadisticas(inventario):
@@ -106,7 +109,17 @@ def eliminar_producto(inventario):
         print(f"\n❕ EL PRODUCTO {nombre_eliminar} NO ESTA DISPONIBLE ❕")
         return False
          
-            
+
+def guardar_csv(inventario, ruta, incluir_header=True):
+    with open("inventario.csv","w", newline = " " ) as archivo:
+           
+
+        escritor = csv.writer(archivo)
+        escritor.writerow(["nombre"],["precio"],["cantidad"])
+
+    for producto in inventario:
+        escritor.writerow({producto['nombre']},{producto['cantidad']},{producto['precio']})
+         
        
         
     
