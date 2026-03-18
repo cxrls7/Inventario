@@ -1,5 +1,5 @@
 import csv
-
+import os
 
 def calcular_total(precio,  cantidad):
     return precio * cantidad
@@ -127,16 +127,92 @@ def eliminar_producto(inventario):
         return False
          
 
-def guardar_csv(inventario, ruta, incluir_header=True):
-    with open("inventario.csv","w", newline = " " ) as archivo:
+def guardar_csv(inventario, ruta = "data/inventario.csv"):
+   
+   while True:
+    exportar = input("Ingrese 1 para exportar: ")
+
+    if not inventario:
+        print("NO HAY PRODUCTOS PARA EXPORTAR")
+        input("Presione ENTER para salir al menu....")
+        return
+    try:
+        if exportar == "1":
+
+            with open(ruta, "w", newline="", encoding="utf-8") as archivo:
+                
+
+                escritor = csv.writer(archivo)
+                escritor.writerow(["nombre", "precio" , "cantidad"])
+
+                for producto in inventario:
+                     escritor.writerow([
+            producto['nombre'], 
+            f"${producto['precio']}", 
+            producto['cantidad']
+        ])
+
+            print(f"Datos exportados correctamente a {ruta}")
+            print(f"Se exportaron {len(inventario)} productos")
+
+    except Exception as e:
+            print(f" ERROR AL EXPORTAR: {e}")
+        
+    reintentar = input("¿Quiere intentarlo de nuevo? si/no: ")
+
+    if reintentar == "no":
+            break
+            
+def cargar_csv(ruta = "data/inventario.csv"):
+
+    data = []
+
+    while True:
+
+      cargar =  input("Ingresa 1 para cargar archivos...")
+
+
+      if not os.path.exists(ruta):
+            print(f"El archivo {ruta} no existe ")
+            return []
+        
+      if cargar == "1":
            
+        try:
+                with open(ruta, "r", encoding = "utf -8") as archivo:
+                    lector = csv.DictReader(archivo)
 
-        escritor = csv.writer(archivo)
-        escritor.writerow(["nombre"],["precio"],["cantidad"])
+                    for fila in lector:
+                        producto = {'nombre': fila['nombre'],
+                                    'precio':  float(fila['precio'].replace("$", "")),
+                                    'cantidad': int(fila['cantidad'])
+                        }
+                    
+                    data.append(producto)
 
-    for producto in inventario:
-        escritor.writerow({producto['nombre']},{producto['cantidad']},{producto['precio']})
-         
+                print(f"Archivo {ruta} cargado correctamente")
+                print(f"Se cargaron {len(producto)} productos")
+
+        except FileNotFoundError:
+            print("El archivo no existe")
+            return producto
+        
+      else:
+            print("Ingresa una opcion valida")
+            return cargar
+        
+      salir = input("¿Desea importar otro archivo? si/no : ")
+
+      if salir == "no":
+          break
+      
+
+    
+
+
+
+    
+
        
         
     

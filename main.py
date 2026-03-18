@@ -1,4 +1,4 @@
-from src.inventario import registrar_producto, buscar_producto, calcular_estadisticas, actualizar_producto, eliminar_producto
+from src.inventario import registrar_producto, buscar_producto, calcular_estadisticas, actualizar_producto, eliminar_producto, guardar_csv, cargar_csv
 import locale
 import os
 
@@ -37,7 +37,9 @@ def main():
         print("4-💱 Actualizar producto")
         print("5-⛔ Eliminar producto")
         print("6-📊 Ver estadisticas")
-        print("7-👋 Salir")
+        print("8- Exportar archivo")
+        print("9- Cargar archivo ")
+        print("10-👋 Salir")
 
         opcion = input("\n-Ingresa una opcion: ")
 
@@ -148,7 +150,14 @@ def main():
                 input("\nPresiona ENTER para volver al menu...")
                 limpiar()
 
-        elif opcion == "7":
+
+        elif opcion == "8":
+            guardar_csv(inventario)
+
+        elif opcion == "9":
+            cargar_csv()
+
+        elif opcion == "10":
             print("\nGracias por utilizar el sistema de inventario 👋 ")
             break
         else:
