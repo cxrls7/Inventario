@@ -1,13 +1,16 @@
 import csv
 import os
 
+def limpiar():
+    os.system("cls" if os.name == "nt" else "clear")
+
 def calcular_total(precio,  cantidad):
     return precio * cantidad
     
 def registrar_producto():
     print("---- MENU AÑADIR PRODUCTOS ----")
     
-    nombre = input("\n-Ingresa el nombre del producto: ")
+    nombre = input("\n-🖋️  Ingresa el nombre del producto: ")
     
     
 
@@ -16,7 +19,7 @@ def registrar_producto():
     
     while True:
         try:
-            precio = float(input("-💶 Precio del unitario del producto: "))
+            precio = float(input("-💶  Precio del unitario del producto: "))
             break
         except ValueError:
             print("\n ❌ Ingresa un valor valido ❌")
@@ -43,15 +46,16 @@ def buscar_producto(inventario, nombre_buscado):
 
 
 def calcular_estadisticas(inventario):
-    if not inventario:
-        return None
+   
     
+    if not inventario:
+        return 0, 0  
+
     valor_total_acumulado = 0
     cantidad_total_items = 0
     mas_caro = inventario[0]
     mayor_stock = inventario[0]
-    calcular_subtotal = lambda producto:producto["precio"] * producto["cantidad"]
-
+    calcular_subtotal = lambda producto: producto["precio"] * producto["cantidad"]
 
     for producto in inventario:
         subtotal = calcular_subtotal(producto)
@@ -64,7 +68,8 @@ def calcular_estadisticas(inventario):
         if producto['cantidad'] > mayor_stock['cantidad']:
             mayor_stock = producto
 
-    return {'unidades': cantidad_total_items, 'valor': valor_total_acumulado, 'mas_caro': mas_caro, 'mayor_stock': mayor_stock}
+  
+    return cantidad_total_items, valor_total_acumulado
 
 
 
@@ -72,11 +77,11 @@ def calcular_estadisticas(inventario):
 def actualizar_producto(inventario):
    print("--- MENU ACTUALIZAR PRODUCTO ----")
 
-   nombre_buscar = input("\n-Ingrese el nombre del producto a actualizar:").strip().lower()
+   nombre_buscar = input("\n-Ingrese el nombre del producto a actualizar: ")
    
    for producto in inventario:
             
-            if producto['nombre'].lower() == nombre_buscar:
+            if producto['nombre'] == nombre_buscar:
                     print(f"\n-Producto encontrado ✔️ : {producto['nombre']}")
                     print("\n-Parametros actuales")
                     print("\nNombre          Cantidad          Precio")
@@ -118,7 +123,7 @@ def eliminar_producto(inventario):
             try:
                 if producto ['nombre'] == nombre_eliminar:
                     inventario.remove(producto)
-                    print("Producto eliminado correctamente ✅ ")
+                    print("\nProducto eliminado correctamente ✅ ")
                     return True
             except ValueError:
                 print("❌ ERROR: Ingresa un nombre valido")
@@ -128,13 +133,16 @@ def eliminar_producto(inventario):
          
 
 def guardar_csv(inventario, ruta = "data/inventario.csv"):
+   print("----- MENU DE EXPORTACION DE ARCHIVOS ----- ")
+   
+
    
    while True:
-    exportar = input("Ingrese 1 para exportar: ")
+    exportar = input("\n- Ingrese 1 para exportar: ")
 
     if not inventario:
-        print("NO HAY PRODUCTOS PARA EXPORTAR")
-        input("Presione ENTER para salir al menu....")
+        print("\n❌ NO HAY PRODUCTOS PARA EXPORTAR")
+        input("\nPresione ENTER para salir al menu....")
         return
     try:
         if exportar == "1":
@@ -152,60 +160,65 @@ def guardar_csv(inventario, ruta = "data/inventario.csv"):
             producto['cantidad']
         ])
 
-            print(f"Datos exportados correctamente a {ruta}")
-            print(f"Se exportaron {len(inventario)} productos")
+            print(f"\n- Datos exportados correctamente a {ruta} ✅")
+            print(f"\n- Se exportaron {len(inventario)} productos ✅ ")
 
     except Exception as e:
-            print(f" ERROR AL EXPORTAR: {e}")
+            print(f"\n❌ ERROR AL EXPORTAR: {e}")
         
-    reintentar = input("¿Quiere intentarlo de nuevo? si/no: ")
+    reintentar = input("\n¿Quiere intentarlo de nuevo? si/no: ")
 
     if reintentar == "no":
+            limpiar()
             break
             
-def cargar_csv(ruta = "data/inventario.csv"):
+def cargar_csv(inventario):
+    print("\n---- MENU CARGA DE ARCHIVOS ----")
 
-    data = []
 
     while True:
 
-      cargar =  input("Ingresa 1 para cargar archivos...")
+        nombre_archivo = input("\n-📂 Ingresa el nombre o ruta del archivo CSV (ej: datos.csv): ")
 
 
-      if not os.path.exists(ruta):
-            print(f"El archivo {ruta} no existe ")
-            return []
+
+        if not os.path.exists(nombre_archivo):
+          limpiar()
+          print(f"\n ❌ El archivo {nombre_archivo} no existe ")
+          return cargar_csv(inventario) 
+              
+            
         
-      if cargar == "1":
-           
+            
         try:
-                with open(ruta, "r", encoding = "utf -8") as archivo:
-                    lector = csv.DictReader(archivo)
+            with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+             lector = csv.DictReader(archivo)
+                        
+             productos_nuevos = 0  
+             for fila in lector:
+                producto = {
+                     'nombre': fila['nombre'],
+                     'precio': float(fila['precio'].replace("$", "").replace(".", "").replace(",", "")),
+                      'cantidad': int(fila['cantidad']) }
+                        
+                inventario.append(producto)
+                productos_nuevos += 1
 
-                    for fila in lector:
-                        producto = {'nombre': fila['nombre'],
-                                    'precio':  float(fila['precio'].replace("$", "")),
-                                    'cantidad': int(fila['cantidad'])
-                        }
-                    
-                    data.append(producto)
-
-                print(f"Archivo {ruta} cargado correctamente")
-                print(f"Se cargaron {len(producto)} productos")
+                print(f"\n-Archivo {nombre_archivo} cargado correctamente ✅")
+                print(f"-Se cargaron {productos_nuevos} productos nuevos ✅")
+                print(f"\nTotal en inventario: {len(inventario)} productos.")
 
         except FileNotFoundError:
-            print("El archivo no existe")
-            return producto
+                print("\n❌ El archivo no existe")
+                return producto
         
-      else:
-            print("Ingresa una opcion valida")
-            return cargar
-        
-      salir = input("¿Desea importar otro archivo? si/no : ")
+            
+        salir = input("\n¿Desea importar otro archivo? si/no : ")
 
-      if salir == "no":
-          break
-      
+        if salir == "no":
+         limpiar()
+         break
+                    
 
     
 

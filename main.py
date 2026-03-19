@@ -37,9 +37,9 @@ def main():
         print("4-💱 Actualizar producto")
         print("5-⛔ Eliminar producto")
         print("6-📊 Ver estadisticas")
-        print("8- Exportar archivo")
-        print("9- Cargar archivo ")
-        print("10-👋 Salir")
+        print("7-📤 Exportar archivo")
+        print("8-➿ Cargar archivo ")
+        print("9-👋 Salir")
 
         opcion = input("\n-Ingresa una opcion: ")
 
@@ -117,21 +117,22 @@ def main():
                 salir = input("\n¿Quieres actualizar otro producto? si/no: ")
                 limpiar()
                 if salir == "no":
-                 limpiar()
                  break
+                limpiar()
 
         elif opcion == "5":
             limpiar()
             while True:
                 eliminar_producto(inventario)
-                respuesta=input("¿Deseas eliminar otro producto? si/no: ")
+                respuesta=input("\n¿Deseas eliminar otro producto? si/no: ")
+                limpiar()
                 if respuesta == "no":
                     limpiar()
                     break
 
         elif opcion == "6":
             limpiar()
-            total_dinero, total_unidades = calcular_estadisticas(inventario)
+            total_unidades, total_dinero = calcular_estadisticas(inventario)
             print("---- MENU ESTADISTICAS DEL INVENTARIO ----")
             if not inventario:
                 limpiar()
@@ -151,13 +152,15 @@ def main():
                 limpiar()
 
 
-        elif opcion == "8":
+        elif opcion == "7":
+            limpiar()
             guardar_csv(inventario)
 
-        elif opcion == "9":
-            cargar_csv()
+        elif opcion == "8":
+            limpiar()
+            cargar_csv(inventario)
 
-        elif opcion == "10":
+        elif opcion == "9":
             print("\nGracias por utilizar el sistema de inventario 👋 ")
             break
         else:
